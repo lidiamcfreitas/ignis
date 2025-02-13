@@ -13,8 +13,7 @@ def read_root():
 def signup(user: User):
     try:
         user_record = auth.create_user(email=user.email, password=user.password)
-        db.collection("users").document(user_record.uid).set(user.dict())
+        db.collection("users").document(user_record.uid).set(user.model_dump())
         return {"uid": user_record.uid, "email": user.email}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-    
