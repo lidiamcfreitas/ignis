@@ -2,6 +2,8 @@ import logging
 import sys
 from dotenv import load_dotenv
 import os
+from starlette.middleware.base import BaseHTTPMiddleware
+from fastapi import Request
 
 # Load environment variables
 load_dotenv()
@@ -37,3 +39,10 @@ logger.addHandler(file_handler)
 
 # Log the current logging level
 logger.info(f"Logging initialized at {LOG_LEVEL} level")
+
+class LogRequestsMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        logger.info(f"Received request: {request.method} {request.url}")
+        response = await call_next(request)
+        logger.info(f"Response: {response.status_code}")
+        return response

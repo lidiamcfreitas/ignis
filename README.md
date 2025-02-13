@@ -78,6 +78,45 @@ src/
 └── main.js         # Application entry point
 ```
 
+Project goal
+```
+/ignis
+├── backend/             # FastAPI backend
+│   ├── app/
+│   │   ├── api/         # API routes
+│   │   ├── models/      # Pydantic models
+│   │   ├── services/    # Business logic
+│   │   ├── tests/       # Backend tests
+│   │   ├── main.py      # FastAPI entry point
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── firebase_config.json  # Firebase Admin SDK
+│   ├── pytest.ini
+│
+├── frontend/             # Vue.js frontend
+│   ├── src/
+│   │   ├── components/   # Reusable Vue components
+│   │   ├── views/        # Page views
+│   │   ├── router.js     # Vue Router
+│   │   ├── store.js      # Vuex or Pinia state management
+│   │   ├── api/          # API services (calls to backend)
+│   │   ├── firebase.js   # Firebase config
+│   │   ├── main.js       # Vue entry point
+│   ├── public/
+│   ├── tests/            # Frontend tests
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── vite.config.js
+│
+├── shared/               # Shared code between frontend & backend
+│   ├── models.py         # Shared Pydantic models
+│   ├── types.ts          # Shared TypeScript models
+│
+├── docker-compose.yml
+├── .gitignore
+├── README.md
+```
+
 ## Contributing
 
 1. Fork the Project
