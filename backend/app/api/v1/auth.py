@@ -1,6 +1,4 @@
 from fastapi import APIRouter, HTTPException
-from firebase_admin import auth
-from app.firebase_config import db
 from app.models.user import User
 from app.services.user_service import UserService
 
@@ -13,6 +11,6 @@ def read_root():
 @router.post("/signup")
 def signup(user: User):
     try:
-        return UserService.create(user.model_dump())
+        return UserService.create(user)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
