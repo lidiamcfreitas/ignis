@@ -125,6 +125,9 @@ Project goal
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## Running tests
+PYTHONPATH=$PWD pytest backend/app/tests -v
+
 ## License
 
 MIT License - see the [LICENSE](LICENSE) file for details
