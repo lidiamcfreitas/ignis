@@ -4,7 +4,7 @@ from google.cloud import firestore
 from app.models.users import User
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate("firebase_config.json")
+cred = credentials.Certificate("/Users/lidiafreitas/programming/ignis/backend/firebaseServiceAccountKey.json")
 firebase_app = initialize_app(cred)
 
 # Firestore DB

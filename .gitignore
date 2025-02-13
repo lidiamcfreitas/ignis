@@ -66,3 +66,6 @@ Thumbs.db
 
 # Ignore firestore key
 backend/firebaseServiceAccountKey.json
+
+# Ignore venv files
+backend/venv/
