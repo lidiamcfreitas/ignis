@@ -7,7 +7,7 @@ T = TypeVar("T", bound=BaseModel)
 
 db = firestore.Client()
 
-class BaseFirestoreService(Generic[T]):
+class BaseService(Generic[T]):
     # Must be defined in child class
     collection_name: str  
     model: Type[T]  # The Pydantic model type
