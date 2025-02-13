@@ -1,7 +1,6 @@
 import os
 from fastapi import FastAPI, Depends, HTTPException, Request
 
-from app.models.users import User
 from app.logging_config import logger, LogRequestsMiddleware
 from app.api.router import router
 from app.firebase_config import db

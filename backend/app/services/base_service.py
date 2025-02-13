@@ -18,12 +18,12 @@ class BaseService(Generic[T]):
         if not cls.collection_name or not cls.model:
             raise ValueError("Collection name and model type must be defined.")
 
-        doc_ref = db.collection(cls.collection_name).add(data.dict())
+        doc_ref = db.collection(cls.collection_name).add(data.model_dump())
         doc_id = doc_ref[1].id
         logger.info(f"Created document {doc_id} in {cls.collection_name}.")
 
-        # Return an instance of the correct type
-        return cls.model(id=doc_id, **data.dict())
+        # Return an instance of the correct type with the new ID
+        return cls.model(id=doc_id, **data.model_dump(exclude={'id'}))
 
     @classmethod
     def get(cls, doc_id: str) -> Optional[T]:
