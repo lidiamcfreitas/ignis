@@ -64,3 +64,5 @@ Thumbs.db
 .cache/
 .temp/
 
+# Ignore firestore key
+backend/firebaseServiceAccountKey.json
