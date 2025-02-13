@@ -27,7 +27,7 @@ console_handler.setLevel(logging.DEBUG)
 console_handler.setFormatter(logging.Formatter(LOG_FORMAT))
 
 # File handler (store logs in a file)
-file_handler = logging.FileHandler("backend/logs/app.log")
+file_handler = logging.FileHandler("logs/app.log")
 file_handler.setLevel(logging.INFO)
 file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
 

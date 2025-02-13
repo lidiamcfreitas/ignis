@@ -4,7 +4,7 @@ from firebase_admin import auth, credentials, initialize_app
 from google.cloud import firestore
 from app.models.users import User
 from dotenv import load_dotenv
-from logging_config import logger
+from app.logging_config import logger
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # Load environment variables from .env
@@ -27,14 +27,14 @@ db = firestore.Client()
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, FastAPI + Firebase!"}
-
 @app.exception_handler(Exception)
 def global_exception_handler(request, exc):
     logger.error(f"Unhandled exception: {exc}", exc_info=True)
     return {"error": "Internal server error"}
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello, FastAPI + Firebase!"}
 
 @app.post("/auth/signup")
 def signup(user: User):
