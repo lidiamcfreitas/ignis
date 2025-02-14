@@ -1,10 +1,21 @@
 from fastapi.testclient import TestClient
+import pytest
 from app.main import app
-from app.logging_config import logger
 
 client = TestClient(app)
 
-def test_signup():
-    response = client.post("/auth/signup", json={"email": "test@example.com", "password": "securepassword"})
+@pytest.fixture
+def mock_auth(mocker):
+    """Mock Firebase authentication for tests."""
+    return mocker.patch("app.auth.firebase_auth.verify_firebase_token", return_value={
+        "uid": "test-uid",
+        "email": "test@example.com",
+        "provider": "test-provider"
+    })
+
+def test_login_without_auth(mock_auth):
+    """Test login endpoint without requiring Firebase authentication."""
+    headers = {"Authorization": "Bearer mock-token"}
+    response = client.post("/auth/login", headers=headers)
     assert response.status_code == 200
-    assert "id" in response.json()
+    assert response.json()["id"] == "test-uid"

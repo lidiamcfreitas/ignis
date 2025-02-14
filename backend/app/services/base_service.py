@@ -31,7 +31,8 @@ class BaseService(Generic[T]):
         doc_ref = db.collection(cls.collection_name).document(doc_id)
         doc = doc_ref.get()
         if doc.exists:
-            return cls.model(id=doc_id, **doc.to_dict())  # Convert Firestore dict to model
+            assert doc.id == doc_id, "id field in firestore must match the id provided."
+            return cls.model(**doc.to_dict())  # Convert Firestore dict to model
         return None
 
     @classmethod
