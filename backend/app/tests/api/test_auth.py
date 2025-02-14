@@ -19,3 +19,9 @@ def test_login_without_auth(mock_auth):
     response = client.post("/auth/login", headers=headers)
     assert response.status_code == 200
     assert response.json()["id"] == "test-uid"
+
+def test_me_without_auth(mock_auth):
+    headers = {"Authorization": "Bearer mock-token"}
+    response = client.get("/auth/me", headers=headers)
+    assert response.status_code == 200
+    assert response.json()["id"] == "test-uid"
