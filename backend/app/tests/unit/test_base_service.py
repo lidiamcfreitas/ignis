@@ -4,12 +4,8 @@ from unittest.mock import MagicMock
 from app.services.base_service import BaseService
 from app.models.user import User
 from typing import Dict, Any
+from app.tests.conftest import mock_firestore
 
-# Mock Firestore Client
-@pytest.fixture
-def mock_firestore(mocker):
-    mock_db = mocker.patch("app.services.base_service.db")
-    return mock_db
 
 # Create a Mock Service that Inherits from BaseService
 class MockUserService(BaseService[User]):

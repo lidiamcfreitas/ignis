@@ -3,6 +3,7 @@ import pytest
 from unittest.mock import MagicMock
 from app.services.user_service import UserService
 from app.models.user import User
+from app.tests.conftest import mock_firestore
 
 @pytest.fixture
 def sample_user() -> Dict[str, Any]:
@@ -11,10 +12,6 @@ def sample_user() -> Dict[str, Any]:
         "email": "test@example.com",
         "provider": "test-provider"
     })
-
-@pytest.fixture
-def mock_firestore(mocker):
-    return mocker.patch("app.services.base_service.db")
 
 def test_create_user(mock_firestore, sample_user):
     mock_firestore.collection.return_value.add.return_value = (None, MagicMock(id="test-uid"))
