@@ -128,6 +128,11 @@ Project goal
 ## Running tests
 PYTHONPATH=$PWD pytest backend/app/tests -v
 
+## Generating the typescript models from the pydantic models
+Inside the backend folder:
+```
+python generate_types.py  
+```
 ## License
 
 MIT License - see the [LICENSE](LICENSE) file for details

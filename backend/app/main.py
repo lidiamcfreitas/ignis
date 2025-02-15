@@ -1,6 +1,7 @@
 import os
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.logging_config import logger, LogRequestsMiddleware
 from app.api.router import router
@@ -13,6 +14,13 @@ app = FastAPI()
 app.include_router(router)
 
 app.add_middleware(LogRequestsMiddleware)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080"],  # Your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.exception_handler(Exception)
 def global_exception_handler(request, exc):
