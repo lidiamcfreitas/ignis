@@ -1,7 +1,6 @@
 from pydantic import EmailStr
 from app.models.base import BaseSchema
 from typing import Optional
-from datetime import datetime
 
 class User(BaseSchema):
     # id: str  # Firebase UID (used as Firestore document ID)
