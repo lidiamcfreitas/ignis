@@ -1,9 +1,11 @@
 import os
 from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi.staticfiles import StaticFiles
 
 from app.logging_config import logger, LogRequestsMiddleware
 from app.api.router import router
 from app.firebase_config import db
+from starlette.responses import FileResponse
 
 app = FastAPI()
 
@@ -20,3 +22,11 @@ def global_exception_handler(request, exc):
 @app.get("/")
 def read_root():
     return {"message": "Hello, FastAPI + Firebase!"}
+
+# # Serve Vue frontend
+# app.mount("/static", StaticFiles(directory="frontend/dist/static"), name="static")
+
+# @app.get("/{full_path:path}")
+# async def catch_all(full_path: str):
+#     """Serve Vue's index.html for all frontend routes."""
+#     return FileResponse("frontend/dist/index.html")
