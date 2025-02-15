@@ -7,7 +7,7 @@ const hover = ref(false);
 </script>
 
 <template>
-<v-container fluid class="fill-height bg-grey-lighten-4">
+<v-container fluid class="fill-height">
     <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="6" lg="4">
             <v-card
