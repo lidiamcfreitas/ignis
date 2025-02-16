@@ -17,13 +17,16 @@ export const useUserStore = defineStore("user", {
   }),
   actions: {
     async login() {
-      try {
+    try {
         const token = await getFirebaseToken();
         await this.restoreSession(token);
-      } catch (error) {
+    } catch (error) {
         console.error("Login failed", error);
         this.isAuthenticated = false;
-      }
+        this.user = null;
+        this.token = null;
+        throw error; // Re-throw the original error
+    }
     },
     async restoreSession(token: string) {
       try {
@@ -36,6 +39,7 @@ export const useUserStore = defineStore("user", {
       } catch (error) {
         console.error("Session restore failed", error);
         this.logout();
+        throw new Error('Login failed');
       }
     },
     logout() {
