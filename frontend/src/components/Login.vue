@@ -22,6 +22,7 @@ const hover = ref(false);
                     <v-card-title class="text-h4 font-weight-bold mb-2">Welcome Back</v-card-title>
                     <v-card-subtitle class="text-body-1 mb-6">Please sign in to continue</v-card-subtitle>
                     <v-btn
+                        id="login_button"
                         block
                         color="surface"
                         elevation="1"
@@ -53,6 +54,7 @@ const hover = ref(false);
                     <v-card-subtitle class="text-body-1 mb-6">{{ userStore.user.email }}</v-card-subtitle>
                     
                     <v-btn
+                        id="logout_button"
                         color="error"
                         @click="userStore.logout()"
                         elevation="2"
