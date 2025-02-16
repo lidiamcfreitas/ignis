@@ -126,7 +126,15 @@ Project goal
 5. Open a Pull Request
 
 ## Running tests
+
+### Backend
 PYTHONPATH=$PWD pytest backend/app/tests -v
+
+Or look for changes
+PYTHONPATH=$PWD pytest-watch app/tests -v
+
+### Frontend
+npm run test:unit -- --watch
 
 ## Generating the typescript models from the pydantic models
 Inside the backend folder:

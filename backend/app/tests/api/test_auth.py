@@ -1,3 +1,7 @@
+import os
+# Set this before importing the app
+os.environ["DISABLE_AUTH"] = "true"
+
 from fastapi.testclient import TestClient
 import pytest
 from app.main import app
