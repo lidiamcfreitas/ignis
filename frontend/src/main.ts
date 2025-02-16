@@ -6,14 +6,14 @@ import { createVuetify } from "vuetify";
 import "vuetify/styles";
 import { aliases, mdi } from "vuetify/iconsets/mdi"; // Icons
 import "@mdi/font/css/materialdesignicons.css"; // Material Design Icons
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useUserStore } from "./stores/userStore";
 
 const app = createApp(App)
 const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 
-const userStore = useUserStore();
-userStore.initializeFromStorage();
 
 const vuetify = createVuetify({
     theme: {

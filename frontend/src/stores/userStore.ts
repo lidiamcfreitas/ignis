@@ -33,10 +33,6 @@ export const useUserStore = defineStore("user", {
         this.user = response.data;
         this.token = token;
         this.isAuthenticated = true;
-        
-        // Store in localStorage
-        localStorage.setItem('user', JSON.stringify(response.data));
-        localStorage.setItem('token', token);
       } catch (error) {
         console.error("Session restore failed", error);
         this.logout();
@@ -46,18 +42,12 @@ export const useUserStore = defineStore("user", {
       this.user = null;
       this.token = null;
       this.isAuthenticated = false;
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-    },
-    initializeFromStorage() {
-      const storedUser = localStorage.getItem('user');
-      const storedToken = localStorage.getItem('token');
-      
-      if (storedUser && storedToken) {
-        this.user = JSON.parse(storedUser);
-        this.token = storedToken;
-        this.isAuthenticated = true;
-      }
     }
   },
+  // Add this persist configuration
+  persist: {
+    key: 'user-store',
+    storage: localStorage,
+    paths: ['isAuthenticated', 'user', ] // specify which state properties to persist. Do not persist the token
+  }
 });
