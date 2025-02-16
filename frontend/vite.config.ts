@@ -14,9 +14,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
-  server: {
-    port: 8080
-  },
+server: {
+port: 8080,
+proxy: {
+    '/api': {
+    target: 'http://localhost:8000',
+    changeOrigin: true,
+    secure: false,
+    credentials: 'include'
+    }
+}
+},
   test: {
     globals: true,
     environment: 'jsdom',

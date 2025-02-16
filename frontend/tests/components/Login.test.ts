@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
 import { setActivePinia } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
-import Login from '@/components/Login.vue'; // Adjust the path if needed
+import Login from '../../src/components/Login.vue'; // Adjust the path if needed
 import { createTestingPinia } from '@pinia/testing';
-import { useUserStore } from '@/stores/userStore';
+import { useUserStore } from '../../src/stores/userStore';
 import { createVuetify } from 'vuetify';
 import 'vuetify/styles';
 

@@ -37,7 +37,7 @@ const hover = ref(false);
                 <v-card-item v-else class="text-center">
                     <v-hover>
                         <template v-slot:default="{ isHovering }">
-                            <v-avatar
+                            <v-avatar v-if="userStore.user.photo_url"
                                 size="96"
                                 class="mb-4"
                                 :elevation="isHovering ? 8 : 2"

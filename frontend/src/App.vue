@@ -31,7 +31,8 @@ theme.value = theme.value === 'light' ? 'dark' : 'light'
 
     <v-main>
         <v-container fluid class="fill-height pa-0 bg-transparent">
-            <Login/>
+            <router-view />
+            <!-- <Login/> -->
         </v-container>
     </v-main>
 </v-app>
