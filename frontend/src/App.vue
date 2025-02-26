@@ -2,24 +2,21 @@
 import Login from "@/components/Login.vue";
 import NavigationDrawer from "@/components/NavigationDrawer.vue";
 import { ref } from 'vue'
+import { useSettingsStore } from '@/stores/settings'
 
+const settingsStore = useSettingsStore()
 const drawer = ref(false)
-const theme = ref('light')
-
-const toggleTheme = () => {
-theme.value = theme.value === 'light' ? 'dark' : 'light'
-}
 </script>
 
 <template>
-    <v-app :theme="theme">
-        <v-app-bar>
-            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-app-bar-title>Ignis</v-app-bar-title>
-            <v-spacer></v-spacer>
-            <v-btn icon @click="toggleTheme">
-                <v-icon>{{ theme === 'light' ? 'mdi-weather-night' : 'mdi-weather-sunny' }}</v-icon>
-            </v-btn>
+    <v-app :theme="settingsStore.theme">
+    <v-app-bar>
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-title>Ignis</v-app-bar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="settingsStore.toggleTheme">
+        <v-icon>{{ settingsStore.theme === 'light' ? 'mdi-weather-night' : 'mdi-weather-sunny' }}</v-icon>
+        </v-btn>
         </v-app-bar>
 
         <NavigationDrawer v-model="drawer" />
