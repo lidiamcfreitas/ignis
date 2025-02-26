@@ -12,13 +12,13 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "login",
     component: Login,
-},
-{
-path: "/profile",
-name: "profile",
-component: ProfileView,
-meta: { requiresAuth: true }
-}
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: ProfileView,
+    meta: { requiresAuth: true }
+  }
 ];
 
 const router = createRouter({
@@ -27,13 +27,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-const userStore = useUserStore();
+  const userStore = useUserStore();
 
-if (to.meta.requiresAuth && !userStore.isAuthenticated) {
+  if (to.meta.requiresAuth && !userStore.isAuthenticated) {
     next('/login');
-} else {
+  } else {
     next();
-}
+  }
 });
 
 export default router;
