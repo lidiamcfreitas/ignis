@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { User } from "@/models/user";
 import { getFirebaseToken } from "@/firebase";
 import axios from "axios";
+import { PersistenceOptions } from "pinia-plugin-persistedstate";
 
 interface UserState {
   isAuthenticated: boolean;
@@ -17,16 +18,16 @@ export const useUserStore = defineStore("user", {
   }),
   actions: {
     async login() {
-    try {
+      try {
         const token = await getFirebaseToken();
         await this.restoreSession(token);
-    } catch (error) {
+      } catch (error) {
         console.error("Login failed", error);
         this.isAuthenticated = false;
         this.user = null;
         this.token = null;
         throw error; // Re-throw the original error
-    }
+      }
     },
     async restoreSession(token: string) {
       try {
@@ -46,12 +47,29 @@ export const useUserStore = defineStore("user", {
       this.user = null;
       this.token = null;
       this.isAuthenticated = false;
+    },
+    async updateProfile(profileData: Partial<User>) {
+      try {
+        const response = await axios.patch<User>(
+          "http://localhost:8000/auth/profile",
+          profileData,
+          {
+            headers: { Authorization: `Bearer ${this.token}` }
+          }
+        );
+
+        this.user = response.data;
+        return response.data;
+      } catch (error) {
+        console.error("Profile update failed", error);
+        throw error;
+      }
     }
   },
   // Add this persist configuration
   persist: {
     key: 'user-store',
     storage: localStorage,
-    paths: ['isAuthenticated', 'user', ] // specify which state properties to persist. Do not persist the token
-  }
+    paths: ['isAuthenticated', 'user', 'token']
+  } as PersistenceOptions<UserState>
 });

@@ -141,6 +141,11 @@ Inside the backend folder:
 ```
 python generate_types.py  
 ```
+
+## Before launching
+- setup token to be in Secure HTTP-only cookies, instead of pinia. Prevents XXS attacks.
+- setup docker
+
 ## License
 
 MIT License - see the [LICENSE](LICENSE) file for details
