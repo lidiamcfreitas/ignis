@@ -26,7 +26,7 @@ const navigateTo = (path: string) => {
 <template>
     <v-navigation-drawer :model-value="isOpen" @update:model-value="isOpen = $event" temporary>
         <v-list>
-            <v-list-item title="Home" prepend-icon="mdi-home" @click="navigateTo('/')"></v-list-item>
+            <v-list-item title="Home" prepend-icon="mdi-home" @click="navigateTo('/dashboard')"></v-list-item>
             <v-list-item title="Profile" prepend-icon="mdi-account" @click="navigateTo('/login')"></v-list-item>
             <v-list-item title="Settings" prepend-icon="mdi-cog" @click="navigateTo('/profile')"></v-list-item>
         </v-list>

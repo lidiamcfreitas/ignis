@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Login from "../components/Login.vue";
 import ProfileView from "../views/ProfileView.vue";
+import DashboardView from "@/views/DashboardView.vue";
 import { useUserStore } from "@/stores/userStore";
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,8 +13,14 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "login",
     component: Login,
-  },
-  {
+},
+{
+    path: "/dashboard",
+    name: "dashboard",
+    component: DashboardView,
+    meta: { requiresAuth: true }
+},
+{
     path: "/profile",
     name: "profile",
     component: ProfileView,
