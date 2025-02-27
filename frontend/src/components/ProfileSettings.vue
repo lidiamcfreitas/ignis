@@ -7,6 +7,8 @@ const fileInput = ref<HTMLInputElement | null>(null)
 const imagePreview = ref<string | null>(null)
 const isLoading = ref(false)
 const error = ref<string | null>(null)
+const success = ref(false)
+const showSnackbar = ref(false)
 const isFormValid = ref(true)
 
 const formData = reactive({
@@ -28,13 +30,23 @@ const handleSubmit = async () => {
     try {
         isLoading.value = true
         error.value = null
+        success.value = false
 
         await userStore.updateProfile({
-        display_name: formData.display_name,
-        email: formData.email,
-        photo_url: formData.photo_url,
-        photoFile: formData.photoFile
+            display_name: formData.display_name,
+            email: formData.email,
+            photo_url: formData.photo_url,
+            photoFile: formData.photoFile
         })
+        
+        success.value = true
+        showSnackbar.value = true
+        
+        // Reset success state after 3 seconds
+        setTimeout(() => {
+            success.value = false
+            showSnackbar.value = false
+        }, 3000)
     } catch (e) {
         error.value = e instanceof Error ? e.message : 'An error occurred while updating profile'
     } finally {
@@ -97,13 +109,29 @@ const handleSubmit = async () => {
                 </v-card-text>
             </v-card>
 
-            <v-btn type="submit" :disabled="!isFormValid || isLoading" color="primary" block :loading="isLoading">
-                Save Changes
+            <v-btn 
+                type="submit" 
+                :disabled="!isFormValid || isLoading" 
+                :color="success ? 'success' : 'primary'" 
+                block 
+                :loading="isLoading"
+            >
+                <v-icon v-if="success" start>mdi-check</v-icon>
+                {{ success ? 'Changes Saved' : 'Save Changes' }}
             </v-btn>
 
             <v-alert v-if="error" type="error" class="mt-4">
                 {{ error }}
             </v-alert>
         </v-form>
+
+        <v-snackbar
+            v-model="showSnackbar"
+            color="success"
+            timeout="3000"
+            location="top"
+        >
+            Profile updated successfully!
+        </v-snackbar>
     </v-container>
 </template>
