@@ -62,6 +62,25 @@ Change the firebase project
 - gcloud config set project ignis-14a77; # Your active project does not match the quota project in your local Application Default Credentials file. This might result in unexpected quota issues. To update your Application Default Credentials quota project, use the `gcloud auth application-default set-quota-project` command.
 - gcloud auth application-default set-quota-project ignis-14a77; 
 
+4. If you want to get the ignis updates: Add Ignis as an upstream remote in your new project
+
+`git remote add ignis https://github.com/lidiamcfreitas/ignis`
+
+Check if it was added
+
+`git remote -v`
+
+Fetch updates from Ignis whenever you need
+
+`git fetch ignis`
+
+Merge the changes into your branch
+
+`git merge ignis/main --allow-unrelated-histories`
+
+If you want to keep project-specific changes separate, you can use rebase instead:
+
+`git rebase ignis/main`
 
 ## Usage
 
