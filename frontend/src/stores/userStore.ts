@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { User } from "@/models/user";
 import { auth } from "@/firebase";
-import axios from "axios";
 import { PersistenceOptions } from "pinia-plugin-persistedstate";
 import {
   onAuthStateChanged,

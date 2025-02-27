@@ -48,7 +48,7 @@ const hover = ref(false);
                         </template>
                     </v-hover>
                     
-                    <v-card-title class="text-h4 font-weight-bold mb-2">
+                    <v-card-title class="text-h4 font-weight-bold mb-2 text-wrap">
                         Welcome back, {{ userStore.user.display_name || "User" }}!
                     </v-card-title>
                     <v-card-subtitle class="text-body-1 mb-6">{{ userStore.user.email }}</v-card-subtitle>
