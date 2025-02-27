@@ -7,7 +7,7 @@ A modern Vue.js boilerplate for building robust web applications. This template 
 - 🔒 Authentication with Firebase
 - 🎯 Vue 3 with Composition API
 - 🗃️ Pinia for state management
-- 🎨 Element Plus UI components
+- 🎨 Vuetify v3
 - 📱 Responsive design
 - 🚦 Vue Router with guards
 - 🔧 ESLint + Prettier setup
@@ -22,8 +22,8 @@ A modern Vue.js boilerplate for building robust web applications. This template 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ignis.git
-cd ignis
+git clone https://github.com/lidiamcfreitas/ignis.git <your_project>
+cd <your_project>
 ```
 
 2. Install dependencies:
@@ -31,15 +31,30 @@ cd ignis
 npm install
 ```
 
-3. Create a `.env` file in the root directory and add your Firebase configuration:
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
+3. Setup firebase
+-  Create the project in https://console.firebase.google.com/ and give it a name. Enable analytics (optional)
+-  You can use spark plan if you want to keep the app free, if you want to use other google services change to blaze plan.
+- Add a web app on the main page to get started. We are not using firebase hosting for now, this can be changed later.
+- Run `npm install firebase`
+- Duplicate the `.env.example` file and rename it to `.env` . Copy the firebase config keys into the `.env` file
+
+ 3.2 Enable services
+  3.2.1 A. Enable Authentication
+  3.2.2 In Firebase Console, go to Build → Authentication.
+  3.2.3 Click Get Started.
+  3.2.4 Select the authentication methods you want to use (Google Sign-In).
+
+B. Enable Firestore Database
+In Firebase Console, go to Firestore Database.
+Click Create Database.
+Choose Start in Test Mode (or set up rules for security).
+Select your preferred location and click Enable.
+
+Get Firebase Admin SDK Credentials
+In Firebase Console, go to Project Settings → Service Accounts.
+Click Generate new private key.
+This will download a json file (e.g., budget-app-firebase-adminsdk.json).
+Move the file to your backend directory (e.g., backend/firebase_config.json).
 
 ## Usage
 
