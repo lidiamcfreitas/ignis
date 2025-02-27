@@ -70,6 +70,25 @@ Check if it was added
 
 `git remote -v`
 
+If ignis appears under (push), that’s an issue. We only want to pull. We don't want to see:
+```
+origin    https://github.com/yourusername/new_project.git (fetch)
+origin    https://github.com/yourusername/new_project.git (push)
+ignis     https://github.com/lidiamcfreitas/ignis.git (fetch)
+ignis     https://github.com/lidiamcfreitas/ignis.git (push)
+```
+
+Disable pushing to ignis
+`git remote set-url --push ignis no_push`
+
+We should see:
+```
+ignis   https://github.com/lidiamcfreitas/ignis (fetch)
+ignis   no_push (push)
+origin  https://github.com/lidiamcfreitas/ignis (fetch)
+origin  https://github.com/lidiamcfreitas/ignis (push)
+```
+
 Fetch updates from Ignis whenever you need
 
 `git fetch ignis`
@@ -81,6 +100,9 @@ Merge the changes into your branch
 If you want to keep project-specific changes separate, you can use rebase instead:
 
 `git rebase ignis/main`
+
+
+
 
 ## Usage
 
