@@ -53,7 +53,7 @@ export const useUserStore = defineStore("user", {
       onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
           if (!this.isAuthenticated) {
-            await firebaseUser.getIdToken();
+            this.token = await firebaseUser.getIdToken();
             if (this.token) {
               await this.restoreSession(this.token);
               this.scheduleTokenRefresh(); // Start auto-refresh

@@ -12,10 +12,10 @@ const showSnackbar = ref(false)
 const isFormValid = ref(true)
 
 const formData = reactive({
-display_name: userStore.user?.display_name || '',
-email: userStore.user?.email || '',
-photo_url: userStore.user?.photo_url || '',
-photoFile: null as File | null
+    display_name: userStore.user?.display_name || '',
+    email: userStore.user?.email || '',
+    photo_url: userStore.user?.photo_url || '',
+    photoFile: null as File | null
 })
 
 const handleImageChange = (event: Event) => {
@@ -38,10 +38,10 @@ const handleSubmit = async () => {
             photo_url: formData.photo_url,
             photoFile: formData.photoFile
         })
-        
+
         success.value = true
         showSnackbar.value = true
-        
+
         // Reset success state after 3 seconds
         setTimeout(() => {
             success.value = false
@@ -64,12 +64,8 @@ const handleSubmit = async () => {
                     <v-row align="center">
                         <v-col cols="auto">
                             <v-avatar size="100" color="grey-lighten-2">
-                                <v-img 
-                                v-if="imagePreview || userStore.user?.photo_url"
-                                :src="imagePreview || userStore.user?.photo_url"
-                                alt="Profile photo"
-                                cover
-                                />
+                                <v-img v-if="imagePreview || userStore.user?.photo_url"
+                                    :src="imagePreview || userStore.user?.photo_url" alt="Profile photo" cover />
                                 <v-icon v-else size="48">mdi-account</v-icon>
                             </v-avatar>
                         </v-col>
@@ -87,35 +83,18 @@ const handleSubmit = async () => {
             <v-card class="mb-6">
                 <v-card-title>Personal Information</v-card-title>
                 <v-card-text>
-                    <v-text-field 
-                    v-model="formData.display_name"
-                    label="Display Name"
-                    :rules="[v => !!v || 'Display name is required']"
-                    variant="outlined"
-                    class="mb-4"
-                    />
+                    <v-text-field v-model="formData.display_name" label="Display Name"
+                        :rules="[v => !!v || 'Display name is required']" variant="outlined" class="mb-4" />
 
-                    <v-text-field
-                    v-model="formData.email"
-                    label="Email"
-                    type="email"
-                    :rules="[
+                    <v-text-field v-model="formData.email" label="Email" type="email" :rules="[
                         v => !!v || 'Email is required',
                         v => /.+@.+\..+/.test(v) || 'Email must be valid'
-                    ]"
-                    variant="outlined"
-                    class="mb-4"
-                    />
+                    ]" variant="outlined" class="mb-4" />
                 </v-card-text>
             </v-card>
 
-            <v-btn 
-                type="submit" 
-                :disabled="!isFormValid || isLoading" 
-                :color="success ? 'success' : 'primary'" 
-                block 
-                :loading="isLoading"
-            >
+            <v-btn type="submit" :disabled="!isFormValid || isLoading" :color="success ? 'success' : 'primary'" block
+                :loading="isLoading">
                 <v-icon v-if="success" start>mdi-check</v-icon>
                 {{ success ? 'Changes Saved' : 'Save Changes' }}
             </v-btn>
@@ -125,12 +104,7 @@ const handleSubmit = async () => {
             </v-alert>
         </v-form>
 
-        <v-snackbar
-            v-model="showSnackbar"
-            color="success"
-            timeout="3000"
-            location="top"
-        >
+        <v-snackbar v-model="showSnackbar" color="success" timeout="3000" location="top">
             Profile updated successfully!
         </v-snackbar>
     </v-container>
