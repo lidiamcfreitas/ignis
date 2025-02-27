@@ -8,7 +8,8 @@ from firebase_admin import credentials, auth, firestore, initialize_app
 load_dotenv()
 
 # Get Firebase credential path from .env
-firebase_cred_path = os.getenv("FIREBASE_CREDENTIALS")
+firebase_cred_path = "firebaseServiceAccountKey.json"
+# firebase_cred_path = os.getenv("FIREBASE_CREDENTIALS")
 
 # Ensure the path is set correctly
 if not firebase_cred_path or not os.path.exists(firebase_cred_path):
