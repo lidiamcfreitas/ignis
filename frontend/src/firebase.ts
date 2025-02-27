@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
-import type { Store } from 'pinia'
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -14,37 +13,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-auth.settings.appVerificationDisabledForTesting = import.meta.env.DEV;
-
-// Set persistence to LOCAL
-setPersistence(auth, browserLocalPersistence);
-
-// Create a variable to hold the store reference
-let userStore: Store | null = null;
-
-// Create a function to initialize the store
-export function initializeAuthStore(store: Store) {
-    userStore = store;
-}
-
-// Add auth state observer
-onAuthStateChanged(auth, async (firebaseUser) => {
-    if (!userStore) return; // Skip if store isn't initialized
-
-    if (firebaseUser) {
-        // User is signed in
-        if (!userStore.isAuthenticated) {
-            const token = await firebaseUser.getIdToken();
-            await userStore.restoreSession(token);
-        }
-    } else {
-        // User is signed out
-        userStore.logout();
-    }
-});
-
-export async function getFirebaseToken(): Promise<string> {
-    const provider = new GoogleAuthProvider();
-    const userCredential = await signInWithPopup(auth, provider);
-    return await userCredential.user.getIdToken();
-}
+export { app, auth };

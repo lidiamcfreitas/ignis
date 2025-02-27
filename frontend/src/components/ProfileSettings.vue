@@ -1,205 +1,109 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, reactive } from 'vue'
 import { useUserStore } from '@/stores/userStore'
-import type { User } from '@/models/user'
 
 const userStore = useUserStore()
+const fileInput = ref<HTMLInputElement | null>(null)
+const imagePreview = ref<string | null>(null)
 const isLoading = ref(false)
-const errorMessage = ref('')
+const error = ref<string | null>(null)
+const isFormValid = ref(true)
 
-// Form data
-const formData = ref({
+const formData = reactive({
 display_name: userStore.user?.display_name || '',
 email: userStore.user?.email || '',
-photo_url: userStore.user?.photo_url || ''
+photo_url: userStore.user?.photo_url || '',
+photoFile: null as File | null
 })
 
-// Image preview
-const imagePreview = ref<string | null>(null)
-const fileInput = ref<HTMLInputElement | null>(null)
-
-// Form validation
-const isFormValid = computed(() => {
-return formData.value.display_name.length > 0 &&
-    formData.value.email.length > 0 &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email)
-})
-
-// Handle image selection
 const handleImageChange = (event: Event) => {
-const target = event.target as HTMLInputElement
-if (target.files && target.files[0]) {
-    const file = target.files[0]
-    formData.value.photo_url = URL.createObjectURL(file)
-    imagePreview.value = URL.createObjectURL(file)
-}
+    const target = event.target as HTMLInputElement
+    if (target.files && target.files[0]) {
+        formData.photoFile = target.files[0]
+        imagePreview.value = URL.createObjectURL(target.files[0])
+    }
 }
 
-// Save profile changes
-const saveProfile = async () => {
-if (!isFormValid.value) return
+const handleSubmit = async () => {
+    try {
+        isLoading.value = true
+        error.value = null
 
-try {
-    isLoading.value = true
-    errorMessage.value = ''
-    
-    // Update user profile using store action
-    await userStore.updateProfile({
-    display_name: formData.value.display_name,
-    email: formData.value.email,
-    photo_url: formData.value.photo_url
-    })
-    
-} catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Failed to update profile'
-} finally {
-    isLoading.value = false
-}
+        await userStore.updateProfile({
+        display_name: formData.display_name,
+        email: formData.email,
+        photo_url: formData.photo_url,
+        photoFile: formData.photoFile
+        })
+    } catch (e) {
+        error.value = e instanceof Error ? e.message : 'An error occurred while updating profile'
+    } finally {
+        isLoading.value = false
+    }
 }
 </script>
 
 <template>
-<div class="profile-settings">
-    <h2>Profile Settings</h2>
-    
-    <form @submit.prevent="saveProfile" class="profile-form">
-    <!-- Profile Image -->
-    <div class="form-group">
-        <label>Profile Photo</label>
-        <div class="profile-photo">
-        <img 
-            :src="imagePreview || formData.photo_url || '/default-avatar.png'" 
-            alt="Profile photo"
-            class="preview-image"
-        />
-        <input
-            type="file"
-            ref="fileInput"
-            accept="image/*"
-            @change="handleImageChange"
-            class="file-input"
-        />
-        <button 
-            type="button" 
-            @click="() => fileInput?.click()"
-            class="upload-button"
-        >
-            Change Photo
-        </button>
-        </div>
-    </div>
+    <v-container>
+        <v-form @submit.prevent="handleSubmit" v-model="isFormValid">
+            <v-card class="mb-6">
+                <v-card-title>Profile Photo</v-card-title>
+                <v-card-text>
+                    <v-row align="center">
+                        <v-col cols="auto">
+                            <v-avatar size="100" color="grey-lighten-2">
+                                <v-img 
+                                v-if="imagePreview || userStore.user?.photo_url"
+                                :src="imagePreview || userStore.user?.photo_url"
+                                alt="Profile photo"
+                                cover
+                                />
+                                <v-icon v-else size="48">mdi-account</v-icon>
+                            </v-avatar>
+                        </v-col>
+                        <v-col>
+                            <input ref="fileInput" type="file" accept="image/*" @change="handleImageChange"
+                                class="d-none" />
+                            <v-btn variant="tonal" @click="() => fileInput?.click()">
+                                Change Photo
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
 
-    <!-- Display Name -->
-    <div class="form-group">
-        <label for="display_name">Display Name</label>
-        <input
-        id="display_name"
-        v-model="formData.display_name"
-        type="text"
-        required
-        class="form-input"
-        />
-    </div>
+            <v-card class="mb-6">
+                <v-card-title>Personal Information</v-card-title>
+                <v-card-text>
+                    <v-text-field 
+                    v-model="formData.display_name"
+                    label="Display Name"
+                    :rules="[v => !!v || 'Display name is required']"
+                    variant="outlined"
+                    class="mb-4"
+                    />
 
-    <!-- Email -->
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input
-        id="email"
-        v-model="formData.email"
-        type="email"
-        required
-        class="form-input"
-        />
-    </div>
+                    <v-text-field
+                    v-model="formData.email"
+                    label="Email"
+                    type="email"
+                    :rules="[
+                        v => !!v || 'Email is required',
+                        v => /.+@.+\..+/.test(v) || 'Email must be valid'
+                    ]"
+                    variant="outlined"
+                    class="mb-4"
+                    />
+                </v-card-text>
+            </v-card>
 
-    <!-- Error Message -->
-    <div v-if="errorMessage" class="error-message">
-        {{ errorMessage }}
-    </div>
+            <v-btn type="submit" :disabled="!isFormValid || isLoading" color="primary" block :loading="isLoading">
+                Save Changes
+            </v-btn>
 
-    <!-- Submit Button -->
-    <button 
-        type="submit" 
-        :disabled="!isFormValid || isLoading"
-        class="save-button"
-    >
-        {{ isLoading ? 'Saving...' : 'Save Changes' }}
-    </button>
-    </form>
-</div>
+            <v-alert v-if="error" type="error" class="mt-4">
+                {{ error }}
+            </v-alert>
+        </v-form>
+    </v-container>
 </template>
-
-<style scoped>
-.profile-settings {
-max-width: 600px;
-margin: 0 auto;
-padding: 20px;
-}
-
-.profile-form {
-display: flex;
-flex-direction: column;
-gap: 20px;
-}
-
-.form-group {
-display: flex;
-flex-direction: column;
-gap: 8px;
-}
-
-.form-input {
-padding: 8px 12px;
-border: 1px solid #ddd;
-border-radius: 4px;
-font-size: 16px;
-}
-
-.profile-photo {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 12px;
-}
-
-.preview-image {
-width: 150px;
-height: 150px;
-border-radius: 50%;
-object-fit: cover;
-}
-
-.file-input {
-display: none;
-}
-
-.upload-button {
-padding: 8px 16px;
-background-color: #f0f0f0;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-}
-
-.save-button {
-padding: 12px 24px;
-background-color: #4CAF50;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-font-size: 16px;
-}
-
-.save-button:disabled {
-background-color: #cccccc;
-cursor: not-allowed;
-}
-
-.error-message {
-color: #ff0000;
-font-size: 14px;
-}
-</style>
-

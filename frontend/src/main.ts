@@ -8,8 +8,6 @@ import { aliases, mdi } from "vuetify/iconsets/mdi";
 import "@mdi/font/css/materialdesignicons.css";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useUserStore } from "./stores/userStore";
-import { initializeAuthStore } from '@/firebase'
-
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
@@ -17,26 +15,36 @@ app.use(pinia)
 
 const vuetify = createVuetify({
     theme: {
-      defaultTheme: "light",
-      themes: {
+    defaultTheme: "light",
+    themes: {
         light: {
-          colors: {
+        colors: {
             primary: "#6200ea",
             secondary: "#03dac6",
-          },
+            background: "#FFFFFF",
+            surface: "#FFFFFF",
+            "upload-button": "#E8E8E8",
+            "on-background": "#000000",
+            "on-surface": "#000000",
+        },
         },
         dark: {
-          colors: {
+        colors: {
             primary: "#bb86fc",
             secondary: "#03dac6",
-          },
+            background: "#121212",
+            surface: "#121212",
+            "upload-button": "#424242",
+            "on-background": "#FFFFFF",
+            "on-surface": "#FFFFFF",
         },
-      },
+        },
+    },
     },
     icons: {
-      defaultSet: "mdi",
-      aliases,
-      sets: { mdi },
+    defaultSet: "mdi",
+    aliases,
+    sets: { mdi },
     },
 });
   
@@ -56,7 +64,6 @@ router.beforeEach((to, from, next) => {
 // Initialize the app first
 app.mount("#app");
 
-// Then initialize the store after the app is mounted
-// This ensures the Pinia store is properly set up
+// Initialize auth state observer after the app is mounted
 const userStore = useUserStore()
-initializeAuthStore(userStore)
+userStore.initializeAuthStateObserver()
