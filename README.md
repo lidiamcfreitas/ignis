@@ -56,6 +56,13 @@ Click Generate new private key.
 This will download a json file (e.g., budget-app-firebase-adminsdk.json).
 Move the file to your backend directory (e.g., backend/firebase_config.json).
 
+Change the firebase project
+- gcloud config get-value project; # get current project. See if this matches the project you want
+- gcloud projects list; # list all projects
+- gcloud config set project ignis-14a77; # Your active project does not match the quota project in your local Application Default Credentials file. This might result in unexpected quota issues. To update your Application Default Credentials quota project, use the `gcloud auth application-default set-quota-project` command.
+- gcloud auth application-default set-quota-project ignis-14a77; 
+
+
 ## Usage
 
 ### Development
