@@ -12,8 +12,6 @@ load_dotenv()
 
 # Bypass authentication in development mode.
 DISABLE_AUTH = os.getenv("DISABLE_AUTH", "false")
-APP_NAME = os.getenv("APP_NAME", "app-name")
-LOG_FILE = os.getenv("LOG_FILE")
 
 def verify_firebase_token(authorization=Security(security)):
     """Verifies Firebase ID token and extracts user data"""

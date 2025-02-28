@@ -106,25 +106,33 @@ If you want to keep project-specific changes separate, you can use rebase instea
 
 ## Usage
 
-### Development
+### Frontend
 
-Start the development server:
+Start the frontend server:
 ```bash
 npm run dev
 ```
-
-### Build
 
 Build for production:
 ```bash
 npm run build
 ```
 
-### Test
+Run tests:
+```bash
+npm run test:unit
+```
+
+### Backend
+
+Start the backend server:
+```bash
+uvicorn app.main:app --reload 
+```
 
 Run tests:
 ```bash
-npm run test
+pytest-watch app/tests -v
 ```
 
 ## Project Structure
